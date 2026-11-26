@@ -1,0 +1,30 @@
+{
+  "name": "open-brain",
+  "version": "0.1.0",
+  "description": "A local memory for AI coding agents: an MCP server that saves notes and finds them again with keyword search.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "open-brain": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "tsc && node --test test/*.test.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "check-public": "node scripts/check-public.mjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "license": "MIT",
+  "author": "Erik Hernal",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.7",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "open-brain": {
+      "command": "node",
+      "args": ["/path/to/open-brain/dist/index.js"],
+      "env": {
+        "OPEN_BRAIN_DB": "/path/to/your/brain.sqlite3",
+        "OPEN_BRAIN_SOURCE": "claude-code"
+      }
+    }
+  }
+}

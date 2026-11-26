@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Before install, so it scans this repo's files and not node_modules.
+      - name: Secret scan (gitleaks)
+        env:
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | tar -xz gitleaks
+          ./gitleaks git --redact --exit-code 1 .
+          ./gitleaks dir --redact --exit-code 1 .
+
+      # No lock file is committed (see .npmrc), so this is npm install, not npm ci.
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Tests
+        run: npm test
+
+      - name: Smoke run over stdio
+        run: node scripts/smoke.mjs
+
+      - name: Public check
+        run: node scripts/check-public.mjs
